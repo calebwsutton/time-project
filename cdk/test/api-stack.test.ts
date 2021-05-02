@@ -4,10 +4,6 @@ import * as api from '../lib/api-stack';
 
 const stack = new api.ApiStack(new cdk.App(), 'ApiTestStack');
 
-test('cfn matches snapshot', () => {
-  expect(SynthUtils.toCloudFormation(stack)).toMatchSnapshot();
-});
-
 test('creates lambda function', () => {
   expectCDK(stack).to(haveResourceLike("AWS::Lambda::Function",));
 });

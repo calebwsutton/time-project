@@ -4,10 +4,6 @@ import * as ui from '../lib/ui-stack';
 
 const stack = new ui.UiStack(new cdk.App(), 'UiTestStack');
 
-test('cfn matches snapshot', () => {
-  expect(SynthUtils.toCloudFormation(stack)).toMatchSnapshot();
-});
-
 test('creates S3 bucket', () => {
   expectCDK(stack).to(haveResource("AWS::S3::Bucket"));
 });
