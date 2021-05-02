@@ -2,7 +2,7 @@ import { expect as expectCDK, haveResource, SynthUtils } from '@aws-cdk/assert';
 import * as cdk from '@aws-cdk/core';
 import * as ui from '../lib/ui-stack';
 
-const stack = new ui.UiStack(new cdk.App(), 'UiTestStack');
+const stack = new ui.UiStack(new cdk.App(), 'UiTestStack', 'calebwsutton.com', 'Z09770092VPEX62M3LDPL');
 
 test('creates S3 bucket', () => {
   expectCDK(stack).to(haveResource("AWS::S3::Bucket"));

@@ -6,16 +6,19 @@ import * as route53 from '@aws-cdk/aws-route53';
 import * as route53targets from '@aws-cdk/aws-route53-targets';
 
 export class ApiStack extends cdk.Stack {
-  constructor(scope: cdk.Construct, id: string, props?: cdk.StackProps) {
+  constructor(scope: cdk.Construct, id: string, domain: string, hz: string, props?: cdk.StackProps) {
     super(scope, id, props);
+
+    const subdomain = 'time-api';
+
     const hostedZone = route53.HostedZone.fromHostedZoneAttributes(this, "HostedZone", {
-      hostedZoneId: "Z09770092VPEX62M3LDPL",
-      zoneName: "calebwsutton.com"
+      hostedZoneId: hz,
+      zoneName: domain
     });
 
     const certificate = new acm.DnsValidatedCertificate(this, 'ApiCertificate', {
       hostedZone: hostedZone,
-      domainName: "time-api.calebwsutton.com"
+      domainName: `${subdomain}.${domain}`
     });
 
     const func = new lambda.Function(this, 'LambdaHandler', {
@@ -28,14 +31,14 @@ export class ApiStack extends cdk.Stack {
       handler: func,
       domainName: {
         certificate: certificate,
-        domainName: "time-api.calebwsutton.com"
+        domainName: `${subdomain}.${domain}`
       }
     }); 
 
     new route53.ARecord(this, 'ApiARecord', {
       zone: hostedZone,
       target: route53.RecordTarget.fromAlias(new route53targets.ApiGatewayDomain(restApi.domainName!)),
-      recordName: "time-api.calebwsutton.com"
+      recordName: `${subdomain}.${domain}`
     });
 
   }

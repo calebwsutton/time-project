@@ -7,17 +7,19 @@ import * as route53 from '@aws-cdk/aws-route53';
 import * as route53targets from '@aws-cdk/aws-route53-targets';
 
 export class UiStack extends cdk.Stack {
-  constructor(scope: cdk.Construct, id: string, props?: cdk.StackProps) {
+  constructor(scope: cdk.Construct, id: string, domain: string, hz: string, props?: cdk.StackProps) {
     super(scope, id, props);
+
+    const subdomain = 'time';
     
     const hostedZone = route53.HostedZone.fromHostedZoneAttributes(this, "HostedZone", {
-      hostedZoneId: "Z09770092VPEX62M3LDPL",
-      zoneName: "calebwsutton.com"
+      hostedZoneId: hz,
+      zoneName: domain
     });
 
     const certificate = new DnsValidatedCertificate(this, 'UiCertificate', {
       hostedZone: hostedZone,
-      domainName: "time.calebwsutton.com"
+      domainName: `${subdomain}.${domain}`
     });
 
     const bucket = new Bucket(this, 'Bucket', {
@@ -41,14 +43,14 @@ export class UiStack extends cdk.Stack {
         behaviors: [{isDefaultBehavior: true}]
       }],
       viewerCertificate: ViewerCertificate.fromAcmCertificate(certificate, {
-        aliases: ["time.calebwsutton.com"]
+        aliases: [`${subdomain}.${domain}`]
       })
     });
 
     new route53.ARecord(this, 'ApiARecord', {
       zone: hostedZone,
       target: route53.RecordTarget.fromAlias(new route53targets.CloudFrontTarget(cfDistribution)),
-      recordName: "time.calebwsutton.com"
+      recordName: `${subdomain}.${domain}`
     });
 
   }

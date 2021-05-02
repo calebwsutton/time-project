@@ -2,7 +2,7 @@ import { expect as expectCDK, haveResource, haveResourceLike, SynthUtils } from 
 import * as cdk from '@aws-cdk/core';
 import * as api from '../lib/api-stack';
 
-const stack = new api.ApiStack(new cdk.App(), 'ApiTestStack');
+const stack = new api.ApiStack(new cdk.App(), 'ApiTestStack', 'calebwsutton.com', 'Z09770092VPEX62M3LDPL');
 
 test('creates lambda function', () => {
   expectCDK(stack).to(haveResourceLike("AWS::Lambda::Function",));
