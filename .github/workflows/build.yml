@@ -11,20 +11,30 @@ jobs:
 
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        subdir: [cdk, api, ui]
-        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
-
     steps:
     - uses: actions/checkout@v2
     - name: Use Node.js 14.x
       uses: actions/setup-node@v2
       with:
         node-version: 14.x
+    # build api
     - run: npm ci
-      working-directory: ${{ matrix.subdir }}
+      working-directory: api
     - run: npm run build --if-present
-      working-directory: ${{ matrix.subdir }}
+      working-directory: api
     - run: npm test
-      working-directory: ${{ matrix.subdir }}
+      working-directory: api
+    # build ui
+    - run: npm ci
+      working-directory: ui
+    - run: npm run build --if-present
+      working-directory: ui
+    - run: npm test
+      working-directory: ui
+    # build cdk
+    - run: npm ci
+      working-directory: cdk
+    - run: npm run build --if-present
+      working-directory: cdk
+    - run: npm test
+      working-directory: cdk
