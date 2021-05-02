@@ -9,5 +9,5 @@ const hz = 'Z09770092VPEX62M3LDPL'
 
 const app = new cdk.App();
 
-new ApiStack(app, 'DwollaApiStack', domain, hz);
-new UiStack(app, 'DwollaUiStack', domain, hz);
+new ApiStack(app, 'TimeApiStack', domain, hz);
+new UiStack(app, 'TimeUiStack', domain, hz);
