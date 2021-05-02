@@ -18,8 +18,8 @@ The code in this repo creates an api which returns the current time(utc) and a u
 - ui
   - Contains a vuejs project that is to be deployed to a cloudfront hosted s3 bucket
 - cdk
-  - Contains code which models the aws infrasctructe necessary to host the api and ui 
-  - This project reference assets created during the build of the api and ui
+  - Contains code which models the aws infrastructure necessary to host the api and ui 
+  - This project references assets created during the build of the api and ui
 ---
 ## Setup
 - You will need aws access keys to run the deploy command
