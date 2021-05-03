@@ -8,8 +8,10 @@
 <script>
 export default {
   name: 'Time',
-  props: {
-    time: String
+  data: function() { 
+    return {
+      time: 'TEST'
+    }
   },
   methods: {
       getTime: function() {

@@ -12,11 +12,12 @@ global.fetch = jest.fn( () =>
 );
 
 describe('Time.vue', () => {
-  it('renders props.time when passed', () => {
+  it('renders data.time when passed', async () => {
     const msg = 'It is 5/1/2021 at 7:25:42 PM'
-    const wrapper = mount(Time, {
-      propsData: { time: msg }
-    })
+    const wrapper = mount(Time)
+
+    await wrapper.setData({time: msg})
+
     expect(wrapper.text()).toMatch(msg)
   });
 
@@ -34,6 +35,6 @@ describe('Time.vue', () => {
 
     await wrapper.find('button').trigger('click');
 
-    expect(wrapper.props('time')).toMatch(timeMock);
+    expect(wrapper.vm.time).toMatch(timeMock);
   });
 });
